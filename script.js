@@ -16,13 +16,13 @@ document.getElementById('parking-form').addEventListener('submit', function (eve
     else if (inputField.value.trim() === '' && inputField.parentElement.classList.value === "input-field"){
         inputField.parentElement.classList.add('input-invalid')
         // requiredMsg()
-        inputField.parentElement.innerHTML += '<div class="errorMsg">Required Field</div>'
+        inputField.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
         // inputField.parentElement.children[0].classList.add('error')
     }
      else if (inputField.parentElement.classList.value === "input-group" && (carYear === '' || carMake === '' || carModel === '')) {
         inputField.parentElement.classList.add('input-invalid')
         inputField.parentElement.parentElement.classList.add('input-invalid')
-        inputField.parentElement.parentElement.innerHTML += '<div class="errorMsg">Required Field</div>'
+        inputField.parentElement.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
         // requiredMsg()
         // inputField.parentElement.parentElement.children[0].innerText = 'Required Field'
     }
@@ -67,17 +67,14 @@ function clearCarError() {
     }
 }
 // function requiredMsg(){
-    // var labelValue = document.querySelector('.input-field').children[0].innerText
-    // console.log(labelValue)
-    // var reqMsq = document.createElement('span')
-    // reqMsg.classList.add('.reqMsg')
-    // reqMsg.innerText = '- Required Field'
-    // labelValue.appendChild(reqMsq)
-    // var errorDiv = document.createElement('div')
-    // errorDiv.classList.add('error-msg')
-    // errorDiv.innerText += 'Required'
 
-    // var field = document.querySelector('.input-field')
-    // field.appendChild(errorDiv)
-    // field.classList.add('error')
+//     var errorDiv = document.createElement('div')
+//     errorDiv.classList.add('errorMsg')
+//     errorDiv.style.color = 'red'
+//     errorDiv.innerText = 'Required'
+
+//     var field = document.querySelectorAll('.input-field')
+//     for (i of field)
+//     i.appendChild(errorDiv)
+    
 // }
