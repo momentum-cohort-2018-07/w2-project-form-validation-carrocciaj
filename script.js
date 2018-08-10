@@ -5,26 +5,27 @@ document.getElementById('parking-form').addEventListener('submit', function (eve
     var carMake = document.getElementById('car-make').value.trim()
     var carModel = document.getElementById('car-model').value.trim()
     clearError()
-    clearCarError() 
+    clearCarError()
+    validCar() 
+    validDate()
   for (inputField of document.querySelectorAll('input')){
     if(inputField.value.trim() !== '' && inputField.parentElement.classList.value === "input-field"){
-        // console.log(inputField)
         inputField.parentElement.classList.add('input-valid')
-        // inputField.parentElement.children[0].innerText += ''
-        // inputField.parentElement.children[0].classList.remove('error')
     } 
     else if (inputField.value.trim() === '' && inputField.parentElement.classList.value === "input-field"){
         inputField.parentElement.classList.add('input-invalid')
-        // requiredMsg()
         inputField.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
-        // inputField.parentElement.children[0].classList.add('error')
+    // } else if (validDate === false){
+    //     document.getElementById('start-date-field').classList.add('input-invalid')
+    // } else if(validDate === true){
+    //     document.getElementById('start-date-field').classList.remove('input-invalid')
+    //     document.getElementById('start-date-field').classList.add('input-valid')
     }
-     else if (inputField.parentElement.classList.value === "input-group" && (carYear === '' || carMake === '' || carModel === '')) {
+     else if (inputField.parentElement.classList.value === "input-group" && ((validCarYear === false) || (carMake === '') || (carModel === ''))) {
+        // console.log(validCarYear)
         inputField.parentElement.classList.add('input-invalid')
         inputField.parentElement.parentElement.classList.add('input-invalid')
         inputField.parentElement.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
-        // requiredMsg()
-        // inputField.parentElement.parentElement.children[0].innerText = 'Required Field'
     }
     else if(inputField.value.trim() !== '' && inputField.parentElement.classList.value === "input-group"){
         inputField.parentElement.classList.add('input-valid')
@@ -36,7 +37,6 @@ document.getElementById('parking-form').addEventListener('submit', function (eve
 function clearError (){
     var field = document.querySelectorAll('.input-field')
     for (error of field){
-        // console.log(error.id)
         if (error.id !== 'car-field'){
          error.classList.remove('input-invalid')
          error.classList.remove('input-valid')
@@ -53,7 +53,6 @@ function clearError (){
 function clearCarError() {
     var field = document.querySelectorAll('.input-group')
     for (error of field){
-        // console.log(error)
          error.classList.remove('input-invalid')
          error.classList.remove('input-valid')
         error.parentElement.classList.remove('input-invalid')
@@ -66,15 +65,32 @@ function clearCarError() {
         }
     }
 }
-// function requiredMsg(){
-
-//     var errorDiv = document.createElement('div')
-//     errorDiv.classList.add('errorMsg')
-//     errorDiv.style.color = 'red'
-//     errorDiv.innerText = 'Required'
-
-//     var field = document.querySelectorAll('.input-field')
-//     for (i of field)
-//     i.appendChild(errorDiv)
+var validCarYear;
+function validCar() {
+    var carYear = parseInt(document.getElementById('car-year').value.trim())
     
-// }
+    var year = new Date()
+    if (!isNaN(carYear) && carYear>1900 && carYear !=='' && carYear<=year.getFullYear()){
+        validCarYear = true
+    } else {
+        validCarYear = false
+    }
+}
+
+var validDate;
+
+function validDate(){
+    var currentDate = new Date()
+    var parkingDate = new Date(document.getElementById('start-date').value)
+    // console.log(parkingDate)
+    if(currentDate < parkingDate){
+        validDate = true
+        // document.getElementById('start-date-field').classList.remove('input-invalid')
+        // document.getElementById('start-date-field').classList.add('input-valid')  
+    } 
+    else {
+        validDate = false
+        // document.getElementById('start-date-field').classList.add('input-invlaid')
+    }
+
+}
