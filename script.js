@@ -135,13 +135,18 @@ function getPrice(){
     }
     var reducer = (price, total) => price + total
     var pricePerDay = []
-    for(day of priceArray){
-        if(day >= 1 && day <= 5){
-            pricePerDay.push(5)
-        } else {
-            pricePerDay.push(7)
-        }
-    }
+    // for(day of priceArray){
+    //     if(day >= 1 && day <= 5){
+    //         pricePerDay.push(5)
+    //     } else {
+    //         pricePerDay.push(7)
+    //     }
+    // }
+    priceArray.map(function(day){if(day >= 1 && day <= 5){
+        pricePerDay.push(5)
+    } else {
+        pricePerDay.push(7)
+    }})
     var parkingTotal = pricePerDay.reduce(reducer, 0)
 
     document.getElementById('total').innerText = "Total Parking Payment: $"+parkingTotal
