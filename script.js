@@ -1,4 +1,5 @@
 
+ 
 document.getElementById('parking-form').addEventListener('submit', function (event) {
     event.preventDefault()
     var carYear = document.getElementById('car-year').value.trim()
@@ -10,25 +11,26 @@ document.getElementById('parking-form').addEventListener('submit', function (eve
     validDate()
     daysValidation()
     validCVV()
-  for (inputField of document.querySelectorAll('input')){
-    if(inputField.value.trim() !== '' && inputField.parentElement.classList.value === "input-field"){
-        inputField.parentElement.classList.add('input-valid')
-    } 
-    else if (inputField.value.trim() === '' && inputField.parentElement.classList.value === "input-field"){
-        inputField.parentElement.classList.add('input-invalid')
-        inputField.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
-    }   
-     else if (inputField.parentElement.classList.value === "input-group" && ((validCarYear === false) || (carMake === '') || (carModel === ''))) {
-        // console.log(validCarYear)
-        inputField.parentElement.classList.add('input-invalid')
-        inputField.parentElement.parentElement.classList.add('input-invalid')
-        inputField.parentElement.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
-    }
-    else if(inputField.value.trim() !== '' && inputField.parentElement.classList.value === "input-group"){
-        inputField.parentElement.classList.add('input-valid')
-        inputField.parentElement.parentElement.classList.add('input-valid')
-  }
-  }
+    getPrice()
+    for (inputField of document.querySelectorAll('input')){
+        if(inputField.value.trim() !== '' && inputField.parentElement.classList.value === "input-field"){
+            inputField.parentElement.classList.add('input-valid')
+        } 
+        else if (inputField.value.trim() === '' && inputField.parentElement.classList.value === "input-field"){
+            inputField.parentElement.classList.add('input-invalid')
+            inputField.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
+        }   
+         else if (inputField.parentElement.classList.value === "input-group" && ((validCarYear === false) || (carMake === '') || (carModel === ''))) {
+            // console.log(validCarYear)
+            inputField.parentElement.classList.add('input-invalid')
+            inputField.parentElement.parentElement.classList.add('input-invalid')
+            inputField.parentElement.parentElement.children[0].innerHTML += '<span class="errorMsg" style="color: red;"> - Required Field</span>'
+        }
+        else if(inputField.value.trim() !== '' && inputField.parentElement.classList.value === "input-group"){
+            inputField.parentElement.classList.add('input-valid')
+            inputField.parentElement.parentElement.classList.add('input-valid')
+      }
+      }
 })
 
 function daysValidation (){
@@ -118,19 +120,30 @@ function validCVV(){
     }
 }
 
-function validCVVTest(x){
-    var cvvNumber = parseInt(x, 10)
-    var cvv = x
-   
-    if (!isNaN(cvvNumber) && cvv.length === 3 && cvv !== ''){
-        // console.log('cvv ' + cvv.length)
-        // console.log('cvv ' + cvvNumber)
-        console.log('good')
-        // document.getElementById('cvv-field').classList.remove('input-invalid')
-        // document.getElementById('cvv-field').classList.add('input-valid') 
-    } else {
-        console.log('wrong')
-        // document.getElementById('cvv-field').classList.add('input-invalid')
-        // document.getElementById('cvv-field').classList.remove('input-valid') 
+function getPrice(){
+    var startDay = document.getElementById('start-date').value
+    var newDate = new Date(startDay.replace(/-0+(?=\d)/, '-'))
+    // console.log(newDate)
+    var daysNeeded = document.getElementById('days').value
+    var currentDay = new Date()
+    var priceArray = []
+    for(i = 0; i < daysNeeded; i++){
+        currentDay.setDate(newDate.getDate() + i)
+        // console.log(currentDay)
+        priceArray.push(currentDay.getDay())
+        // console.log(priceArray)
     }
+    var reducer = (price, total) => price + total
+    var pricePerDay = []
+    for(day of priceArray){
+        if(day >= 1 && day <= 5){
+            pricePerDay.push(5)
+        } else {
+            pricePerDay.push(7)
+        }
+    }
+    var parkingTotal = pricePerDay.reduce(reducer, 0)
+
+    document.getElementById('total').innerText = "Total Parking Payment: $"+parkingTotal
+    // console.log(parkingTotal)
 }
